@@ -1,0 +1,5 @@
+filetype
+pypdf[full]
+Pillow
+boto3
+
