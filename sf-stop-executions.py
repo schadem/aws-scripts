@@ -6,15 +6,30 @@ def stop_executions(state_machine_arn):
     # Create a Step Functions client
     client = boto3.client('stepfunctions')
 
-    # List all running executions for the state machine
-    response = client.list_executions(stateMachineArn=state_machine_arn,
-                                      statusFilter='RUNNING')
+    next_token = None
+    next = True
+    while next:
+        if next_token:
+            response = client.list_executions(
+                stateMachineArn=state_machine_arn, nextToken=next_token,
+                statusFilter='RUNNING'
+            )  # List all executions for the state machine
+        else:
+            response = client.list_executions(
+                stateMachineArn=state_machine_arn, statusFilter='RUNNING')
+
+        for execution in response['executions']:
+            execution_arn = execution['executionArn']
+            client.stop_execution(executionArn=execution_arn)
+            print(f"Stopped execution: {execution_arn}")
+        # Retrieve "numberOfPages" output for each execution
+
+        if 'nextToken' in response:
+            next_token = response['nextToken']
+        else:
+            next = False
 
     # Stop each running execution
-    for execution in response['executions']:
-        execution_arn = execution['executionArn']
-        client.stop_execution(executionArn=execution_arn)
-        print(f"Stopped execution: {execution_arn}")
 
 
 if __name__ == '__main__':
