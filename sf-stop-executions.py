@@ -39,7 +39,7 @@ if __name__ == '__main__':
         '--state_machine_arn',
         type=str,
         default=
-        'arn:aws:states:us-east-1:913165245630:stateMachine:OpenSearchWorkflow14402093-jvlu9HvEnpCf',
+        'arn:aws:states:us-east-1:913165245630:stateMachine:OpenSearchWorkflow14402093-KXc2ZoaUJaVa',
         help='ARN of the state machine')
     args = parser.parse_args()
 

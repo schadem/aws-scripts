@@ -21,16 +21,15 @@ def get_image_page_count(file_path):
 
 # Change this to the glob pattern you want to use
 total_page_count = 0
-for file_path in glob.glob(args.glob):
-    print(f"{file_path}")
+for file_path in glob.glob(args.glob, recursive=True):
     try:
         if file_path.lower().endswith('.pdf'):
             page_count = get_pdf_page_count(file_path)
-            print(f'PDF file "{file_path}" has {page_count} pages.')
+            print(f'{file_path},{page_count}')
         elif file_path.lower().endswith(
             ('.jpeg', '.jpg', '.png', '.tiff', '.tif')):
             page_count = get_image_page_count(file_path)
-            print(f'Image file "{file_path}" has {page_count} pages or frames.')
+            print(f'{file_path},{page_count}')
         else:
             print(f'File "{file_path}" is not a supported format.')
             page_count = 0
